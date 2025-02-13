@@ -27,7 +27,7 @@ def stream_lsf_output(job_id, interval=0.1):
 
     Parameters:
     - job_id (str): The LSF job ID.
-    - interval (int): Time in seconds between checks.
+    - interval (float): Time in seconds between checks.
     """
     try:
         print(f"Streaming output for job {job_id}...\n")
