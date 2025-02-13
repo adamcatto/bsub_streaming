@@ -6,15 +6,15 @@ This repository allows you to stream the outputs of the job's `stdout` and `stde
 
 ## Setup
 
-1. `git clone` this repository
+1. Clone this repository: `git clone https://github.com/adamcatto/bsub_streaming.git`
 
 2. Add the following line to your `~/.bashrc` (or `~/.zshrc`, or whatever shell config you use): 
 
 `alias stream_bsub="/path/to/bsub_streaming/stream_bsub.py"`
 
-for instance, if I clone the repository to the folder `/home/adam`, I would add to my `/home/adam/.bashrc` file:
+for instance, if I clone the repository to the folder `/opt/software`, and my `bashrc` is located at `/home/adam/.bashrc`, I would add the following line to my `/home/adam/.bashrc` file:
 
-`alias stream_bsub="/home/adam/bsub_streaming/stream_bsub.py"`
+`alias stream_bsub="/opt/software/bsub_streaming/stream_bsub.py"`
 
 3. Run `source ~/.bashrc` (or whatever shell config you use)
 
