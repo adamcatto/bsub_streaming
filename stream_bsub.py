@@ -21,7 +21,7 @@ def get_latest_job_id():
         print(f"Error fetching latest job ID: {e}")
         return None
 
-def stream_lsf_output(job_id, interval=0.1):
+def stream_lsf_output(job_id, interval=1):
     """
     Stream the output of an LSF job given its job ID.
 
@@ -31,6 +31,7 @@ def stream_lsf_output(job_id, interval=0.1):
     """
     try:
         print(f"Streaming output for job {job_id}...\n")
+
         seen_lines = set()
 
         while True:
@@ -47,23 +48,19 @@ def stream_lsf_output(job_id, interval=0.1):
                 print(f"\nJob {job_id} has finished with status: {status}. Stopping output stream.")
                 break
 
-            # Fetch job output
-            bpeek_cmd = ["bpeek", job_id]
-            process = subprocess.Popen(bpeek_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            # Fetch job output (stdout + stderr)
+            bpeek_cmd = ["bpeek", "-f", job_id]
+            process = subprocess.Popen(bpeek_cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
 
+            # Print any new lines
             for line in iter(process.stdout.readline, ''):
                 line = line.strip()
                 if line and line not in seen_lines:
                     print(line)
                     seen_lines.add(line)
-            process.stdout.close()
 
-            for line in iter(process.stderr.readline, ''):
-                line = line.strip()
-                if line and line not in seen_lines:
-                    print(line)
-                    seen_lines.add(line)
-            process.stderr.close()
+            process.stdout.close()
+            process.wait()
 
             time.sleep(interval)
 
